@@ -13,21 +13,29 @@
 ::    along with this program.  If not, see <http://www.gnu.org/licenses/>
 title Minecraft Uninstaller
 echo This utility removes Minecraft completely.
-echo.
-echo Are you sure you want to remove Minecraft
-echo (This will remove all files.)
+echo It is recommended that you make a backup first.
 :home
 cls
 echo.
 echo Select a task:
 echo =============
 echo.
-echo 1) Uninstall Minecraft
-echo 2) Backup Minecraft save-game
+echo 1) Backup Minecraft save-game
+echo 2) Uninstall Minecraft
 echo 3) Exit
 echo.
 set /p x=Type option:
 if "%x%%"=="1"
+echo Copying your Minecraft folder to your desktop.
+echo.
+cd "%UserProfile%\Desktop"
+mkdir MCSaveGame
+xcopy /s "%appdata%\.minecraft"
+echo. Minecraft has been copied.
+goto home
+if "%x%%"=="2" goto :uninstall
+if "%x%%"=="3" exit
+:uninstall
 taskkill /im javaw.exe
 rmdir /S /Q "%appdata%\.minecraft"
 cd "%UserProfile%\Desktop"
@@ -37,13 +45,3 @@ echo Minecraft has been deleted.
 echo.
 pause >>nul
 goto home
-if "%x%%"=="2" goto backup
-if "%x%%"=="3" exit
-goto home
-:backup
-echo Copying your Minecraft folder to your desktop.
-echo.
-cd "%UserProfile%\Desktop"
-mkdir MCSaveGame
-xcopy /s "%appdata%\.minecraft"
-echo. Minecraft has been copied.
