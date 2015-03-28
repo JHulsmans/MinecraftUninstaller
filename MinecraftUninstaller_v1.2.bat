@@ -25,16 +25,18 @@ echo 2) Uninstall Minecraft
 echo 3) Exit
 echo.
 set /p x=Type option:
-if "%x%%"=="1"
+if "%x%"=="1" goto :backup
+if "%x%"=="2" goto :uninstall
+if "%x%"=="3" exit
+:backup
 echo Copying your Minecraft folder to your desktop.
 echo.
 cd "%UserProfile%\Desktop"
+if exist MCSaveGame rmdir /S /Q MCSaveGame
 mkdir MCSaveGame
-xcopy /s "%appdata%\.minecraft"
-echo. Minecraft has been copied.
+xcopy /s /v /Q "%appdata%\.minecraft" "%UserProfile%\Desktop\MCSaveGame"
+echo. Minecraft has been copied to your desktop.
 goto home
-if "%x%%"=="2" goto :uninstall
-if "%x%%"=="3" exit
 :uninstall
 taskkill /im javaw.exe
 rmdir /S /Q "%appdata%\.minecraft"
